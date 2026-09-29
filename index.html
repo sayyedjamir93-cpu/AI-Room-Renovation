@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f7f7f2" />
+    <meta name="description" content="Reimagine your home with RoomRevamp AI. Upload a room photo, choose a style, and explore a fresh new look." />
+    <title>RoomRevamp AI — A fresh perspective on home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="app.js" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="RoomRevamp AI home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none"><path d="m5 15 11-9 11 9v11H5V15Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 26v-7h8v7M23.5 4l.6 2.1 2.1.6-2.1.6-.6 2.1-.6-2.1-2.1-.6 2.1-.6.6-2.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        </span>
+        <span>roomrevamp<span class="brand-ai"> AI</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Main navigation">
+        <a href="#how-it-works">How it works</a>
+        <a href="#styles">Styles</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#pricing">Pricing</a>
+      </nav>
+      <div class="header-actions">
+        <a class="login-link" href="#footer">Log in</a>
+        <a class="button button-dark button-small" href="#studio">Start renovating <span aria-hidden="true">↗</span></a>
+      </div>
+      <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false"><span></span><span></span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero section-shell">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> YOUR SPACE, REIMAGINED</div>
+          <h1>Transform your room<br />in seconds <span>with AI.</span></h1>
+          <p class="hero-description">A new point of view is closer than you think. Upload a photo, find your style, and see what your space could become.</p>
+          <div class="hero-proof"><div class="avatar-stack" aria-hidden="true"><span>J</span><span>M</span><span>A</span></div><p><strong>12,000+</strong> rooms reimagined <span class="proof-star">✳</span></p></div>
+        </div>
+
+        <div class="upload-card" id="upload-card">
+          <div class="upload-photo" id="upload-dropzone" role="button" tabindex="0" aria-label="Choose or drop a room photo">
+            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1400&q=85" alt="Sunlit living room with warm neutral furniture" />
+            <div class="photo-topline"><span class="photo-tag"><span class="live-dot"></span> A LITTLE INSPIRATION</span><span class="photo-count">01 / 03</span></div>
+            <div class="drop-prompt"><span class="upload-icon" aria-hidden="true">↑</span><strong>Drop your room photo here</strong><span>or click to browse · JPG, PNG, WEBP</span></div>
+          </div>
+          <div class="upload-bottom">
+            <div><span class="sample-label">NOT READY? START WITH A SAMPLE</span><div class="sample-list">
+              <button class="sample-button" type="button" data-sample="living"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=140&q=75" alt="" /><span>Living room</span></button>
+              <button class="sample-button" type="button" data-sample="bedroom"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=140&q=75" alt="" /><span>Bedroom</span></button>
+              <button class="sample-button" type="button" data-sample="kitchen"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=140&q=75" alt="" /><span>Kitchen</span></button>
+            </div></div>
+            <button class="button button-dark upload-button" type="button" id="upload-button"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 13V3m0 0L6.5 6.5M10 3l3.5 3.5M4 12v4h12v-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Upload a photo</button>
+          </div>
+          <input id="file-input" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+        </div>
+        <div class="hero-caption"><span>01</span> START WITH THE ROOM YOU HAVE <span class="caption-rule"></span> SEE THE ROOM YOU WANT</div>
+      </section>
+
+      <section class="studio-section section-shell" id="studio" aria-labelledby="studio-title">
+        <div class="section-heading studio-heading"><div><div class="eyebrow">YOUR DESIGN STUDIO</div><h2 id="studio-title">Make it feel like <em>you.</em></h2></div><p>Small details, big difference. Set the scene and we'll take it from here.</p></div>
+        <div class="studio-layout">
+          <div class="studio-preview">
+            <div class="preview-image-wrap"><img id="room-preview" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=85" alt="Your selected room" /><span class="preview-label">YOUR ROOM</span><button class="change-photo" type="button" id="change-photo">↗ Change photo</button></div>
+            <div class="preview-note"><span class="note-icon">✳</span><span><strong>Your layout stays yours.</strong> We reimagine the look, not the architecture.</span></div>
+          </div>
+          <div class="studio-controls">
+            <div class="wizard-progress" aria-label="Design steps"><span class="progress-step is-active"><i>1</i> Room type</span><span class="progress-line"></span><span class="progress-step is-active"><i>2</i> Style</span><span class="progress-line"></span><span class="progress-step"><i>3</i> Details</span></div>
+            <div class="control-block">
+              <div class="control-title"><span class="step-number">01</span><div><h3>What room are we in?</h3><p>This helps us get the details right.</p></div></div>
+              <div class="room-options" role="group" aria-label="Room type">
+                <button class="room-option is-selected" type="button" data-room="Living room">Living room</button><button class="room-option" type="button" data-room="Bedroom">Bedroom</button><button class="room-option" type="button" data-room="Kitchen">Kitchen</button><button class="room-option" type="button" data-room="Home office">Home office</button><button class="room-option" type="button" data-room="Dining area">Dining area</button><button class="room-option" type="button" data-room="Bathroom">Bathroom</button>
+              </div>
+            </div>
+            <div class="control-block style-block" id="styles">
+              <div class="control-title"><span class="step-number">02</span><div><h3>Find your kind of lovely.</h3><p>Pick a starting point. You can always change it.</p></div></div>
+              <div class="style-grid" role="group" aria-label="Interior style">
+                <button class="style-option is-selected" type="button" data-style="Scandinavian"><img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=340&q=70" alt="" /><span>Scandinavian</span><i></i></button>
+                <button class="style-option" type="button" data-style="Japandi"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=340&q=70" alt="" /><span>Japandi</span><i></i></button>
+                <button class="style-option" type="button" data-style="Modern luxury"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=340&q=70" alt="" /><span>Modern luxury</span><i></i></button>
+                <button class="style-option" type="button" data-style="Minimalist"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=340&q=70" alt="" /><span>Minimalist</span><i></i></button>
+                <button class="style-option" type="button" data-style="Industrial"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=340&q=70" alt="" /><span>Industrial</span><i></i></button>
+                <button class="style-option" type="button" data-style="Bohemian"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=340&q=70" alt="" /><span>Bohemian</span><i></i></button>
+              </div>
+            </div>
+            <div class="control-block details-block">
+              <label class="control-title" for="custom-notes"><span class="step-number">03</span><span><strong>Anything else on your mind?</strong><small>Optional, but the little things matter.</small></span></label>
+              <textarea id="custom-notes" rows="2" placeholder="A wooden coffee table, warm evening light, a little more green..."></textarea>
+            </div>
+            <div id="upload-error" class="error-message" role="alert" hidden></div>
+            <button class="button button-dark generate-button" type="button" id="generate-button"><span>Let’s see the possibilities</span><span class="button-sparkle">✳</span><span class="button-arrow">↗</span></button>
+            <p class="privacy-note"><span>◈</span> Your photos stay yours. Private by design.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="results-section" id="results" hidden aria-labelledby="results-title">
+        <div class="section-shell results-shell">
+          <div class="results-top"><div><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR ROOM, REIMAGINED</div><h2 id="results-title">A fresh take on <em>home.</em></h2></div><span class="result-style-tag" id="result-style-tag">SCANDINAVIAN · LIVING ROOM</span></div>
+          <div class="compare-wrap" id="compare-wrap">
+            <img class="compare-after" id="compare-after" src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" alt="AI renovation preview" />
+            <div class="compare-before" id="compare-before"><img id="compare-original" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=85" alt="Original room" /></div>
+            <span class="compare-label label-before">BEFORE</span><span class="compare-label label-after">AFTER</span>
+            <div class="compare-divider" id="compare-divider"><span>↔</span></div>
+            <input class="compare-range" id="compare-range" type="range" min="0" max="100" value="50" aria-label="Compare before and after images" />
+            <div class="generating-overlay" id="generating-overlay" hidden><span class="loader-orbit"><i></i></span><strong id="loading-message">Reading the light in your room...</strong><span>Making a little room for possibility</span></div>
+          </div>
+          <div class="result-toolbar"><p><span class="result-ready-dot"></span> Your first concept is ready to explore</p><div class="result-actions"><button class="button button-outline" type="button" id="try-again"><span>⟳</span> Try another style</button><button class="button button-dark" type="button" id="download-result"><span>↓</span> Save image</button><button class="icon-button" type="button" id="share-result" aria-label="Copy share link" title="Copy share link">↗</button></div></div>
+          <div class="variation-row"><div class="variation-heading"><div><span class="sample-label">A FEW MORE DIRECTIONS</span><h3>Explore the possibilities</h3></div><span class="variation-count">01 <i>/</i> 04</span></div><div class="variation-grid" id="variation-grid">
+            <button class="variation-card is-selected" type="button" data-variation="0"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80" alt="Soft natural interior variation" /><span>Soft & natural <i>↗</i></span></button>
+            <button class="variation-card" type="button" data-variation="1"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=600&q=80" alt="Quiet luxury interior variation" /><span>Quiet luxury <i>↗</i></span></button>
+            <button class="variation-card" type="button" data-variation="2"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=600&q=80" alt="Clean slate interior variation" /><span>Clean slate <i>↗</i></span></button>
+            <button class="variation-card" type="button" data-variation="3"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=600&q=80" alt="Collected home interior variation" /><span>Collected home <i>↗</i></span></button>
+          </div></div>
+          <p class="mock-disclaimer">Concept preview · Connect your image generation API to create custom room transformations.</p>
+        </div>
+      </section>
+
+      <section class="how-section section-shell" id="how-it-works">
+        <div class="section-heading"><div><div class="eyebrow">NO MOOD BOARD REQUIRED</div><h2>Three little steps.<br /><em>A whole new feeling.</em></h2></div><a class="text-link" href="#studio">Try the studio <span>↗</span></a></div>
+        <div class="how-grid"><article class="how-item"><span class="how-number">01</span><div class="how-icon icon-photo">▧</div><h3>Show us your space</h3><p>Upload a photo of any room. No staging, styling, or tidying up first.</p><span class="how-line"></span></article><article class="how-item"><span class="how-number">02</span><div class="how-icon icon-palette">◌</div><h3>Make it your own</h3><p>Choose a look you love and tell us the details you have in mind.</p><span class="how-line"></span></article><article class="how-item"><span class="how-number">03</span><div class="how-icon icon-spark">✳</div><h3>See what’s possible</h3><p>Explore fresh concepts for your actual room, ready to save and share.</p><span class="how-line"></span></article></div>
+      </section>
+
+      <section class="styles-section" id="gallery">
+        <div class="section-shell styles-shell"><div class="section-heading"><div><div class="eyebrow">A LITTLE INSPIRATION</div><h2>Good taste has <em>many looks.</em></h2></div><a class="text-link" href="#styles">Browse all styles <span>↗</span></a></div>
+          <div class="inspiration-grid"><button class="inspiration-card inspiration-large" type="button" data-pick-style="Japandi"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1000&q=85" alt="Quiet Japandi living room with natural wood and neutral textures" /><span class="inspiration-overlay"><small>01 / CALM, CONSIDERED LIVING</small><strong>Japandi</strong><i>↗</i></span></button><button class="inspiration-card" type="button" data-pick-style="Modern luxury"><img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=85" alt="Modern luxury interior with rich materials" /><span class="inspiration-overlay"><small>02 / EASY ELEGANCE</small><strong>Modern luxury</strong><i>↗</i></span></button><button class="inspiration-card" type="button" data-pick-style="Bohemian"><img src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=800&q=85" alt="Relaxed bohemian-inspired interior" /><span class="inspiration-overlay"><small>03 / COLLECTED & COMFORTABLE</small><strong>Bohemian</strong><i>↗</i></span></button></div>
+        </div>
+      </section>
+
+      <section class="features-section section-shell" id="pricing">
+        <div class="feature-intro"><div class="eyebrow">THOUGHTFUL BY DESIGN</div><h2>Big ideas.<br /><em>Still your room.</em></h2><p>Good design makes the most of what’s already there. Your room’s proportions, windows, and bones all stay in the picture.</p></div>
+        <div class="feature-list"><article class="feature-item"><span class="feature-symbol">⌂</span><div><h3>The room stays yours</h3><p>Original walls, doors, windows, and layout stay at the heart of every concept.</p></div><span class="feature-index">01</span></article><article class="feature-item"><span class="feature-symbol">◈</span><div><h3>More than one right answer</h3><p>Explore distinct directions across 15+ design influences and find your favorite.</p></div><span class="feature-index">02</span></article><article class="feature-item"><span class="feature-symbol">✳</span><div><h3>Ideas, without the wait</h3><p>Go from a photo to inspiration in moments, with crisp concepts to keep close.</p></div><span class="feature-index">03</span></article></div>
+      </section>
+
+      <section class="closing-section"><div class="closing-inner"><span class="closing-spark">✳</span><p>A home is never really finished.</p><h2>That’s the lovely part.</h2><a href="#upload-card" class="button button-light">Find your next idea <span>↗</span></a><span class="closing-caption">A GOOD PLACE TO BEGIN.</span></div></section>
+    </main>
+
+    <footer class="site-footer" id="footer"><div class="footer-top"><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none"><path d="m5 15 11-9 11 9v11H5V15Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 26v-7h8v7M23.5 4l.6 2.1 2.1.6-2.1.6-.6 2.1-.6-2.1-2.1-.6 2.1-.6.6-2.1Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span><span>roomrevamp<span class="brand-ai"> AI</span></span></a><p>A fresh perspective on home.</p><nav class="footer-links"><a href="#how-it-works">How it works</a><a href="#styles">Styles</a><a href="#gallery">Gallery</a><a href="#pricing">Pricing</a></nav><div class="footer-social"><a href="#footer" aria-label="Instagram">ig</a><a href="#footer" aria-label="Pinterest">p</a></div></div><div class="footer-bottom"><span>© 2025 RoomRevamp AI. Made for the home you’re making.</span><span class="tech-badge">✳ CONCEPT MODE · AI-READY</span><span class="footer-legal"><a href="#footer">Privacy</a><a href="#footer">Terms</a></span></div></footer>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </body>
+</html><!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="RoomRevamp AI — snap a photo of your room, pick a style, and let AI redesign your interior in seconds."
+    />
+    <meta name="theme-color" content="#0F172A" />
+    <title>RoomRevamp AI — Transform Your Room in Seconds</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
