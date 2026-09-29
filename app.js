@@ -103,9 +103,11 @@ let toastTimer;
 let generationNumber = 0;
 let activeVariations = variationCatalog.Scandinavian;
 let currentBudget = "mid-range";
+let currentImageInput = photoLibrary.living.image;
 
-function setRoomImage(image, room) {
+function setRoomImage(image, room, input = image) {
   currentImage = image;
+  currentImageInput = input;
   currentRoom = room;
   roomPreview.src = image;
   originalImage.src = image;
@@ -138,13 +140,22 @@ function showToast(message) {
 function useSample(key) {
   const sample = photoLibrary[key];
   if (!sample) return;
-  setRoomImage(sample.image, sample.room);
+  setRoomImage(sample.image, sample.room, sample.image);
   errorMessage.hidden = true;
   resultSection.hidden = true;
   document.querySelector("#studio").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-function handleFiles(files) {
+function readFileAsDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.addEventListener("load", () => resolve(reader.result));
+    reader.addEventListener("error", reject);
+    reader.readAsDataURL(file);
+  });
+}
+
+async function handleFiles(files) {
   const file = files?.[0];
   if (!file) return;
   const supportedTypes = ["image/jpeg", "image/png", "image/webp"];
@@ -162,7 +173,8 @@ function handleFiles(files) {
   }
   if (currentObjectUrl) URL.revokeObjectURL(currentObjectUrl);
   currentObjectUrl = URL.createObjectURL(file);
-  setRoomImage(currentObjectUrl, currentRoom);
+  currentImageInput = await readFileAsDataUrl(file);
+  setRoomImage(currentObjectUrl, currentRoom, currentImageInput);
   errorMessage.hidden = true;
   resultSection.hidden = true;
   document.querySelector("#studio").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -200,7 +212,19 @@ function renderVariations(selectedIndex = 0) {
   selectVariation(selectedIndex);
 }
 
-function startGeneration() {
+async function requestRenovation(budget, notes) {
+  const prompt = `Transform this exact ${currentRoom.toLowerCase()} into a ${currentStyle} interior for a ${budget.label.toLowerCase()} budget. Keep the same walls, windows, doors, camera angle, room proportions, and major layout. Make it practical for an ordinary family home, using durable attainable materials and realistic furniture changes. Do not make it look like a luxury showroom. ${notes ? `User priorities: ${notes}` : "Prioritize comfort, storage, and everyday use."}`;
+  const response = await fetch("/api/renovate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ image: currentImageInput, prompt })
+  });
+  const result = await response.json();
+  if (!response.ok) throw new Error(result.error || "The renovation service is unavailable.");
+  return result.imageUrl;
+}
+
+async function startGeneration() {
   const button = document.querySelector("#generate-button");
   const overlay = document.querySelector("#generating-overlay");
   const loadingMessage = document.querySelector("#loading-message");
@@ -225,13 +249,22 @@ function startGeneration() {
   document.querySelector("#results-title").innerHTML = `A fresh take on <em>${currentRoom.toLowerCase()}.</em>`;
   resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
-  setTimeout(() => {
+  try {
+    afterImage.src = await requestRenovation(budget, notes);
+    if (activeVariations[0]) {
+      activeVariations[0].image = afterImage.src;
+      const firstCardImage = variationGrid.querySelector(".variation-card img");
+      if (firstCardImage) firstCardImage.src = afterImage.src;
+    }
+  } catch (error) {
+    showToast(error.message.includes("REPLICATE_API_TOKEN") ? "Add REPLICATE_API_TOKEN to .env for real AI renovations." : error.message);
+  } finally {
     messageTimers.forEach(clearTimeout);
     overlay.hidden = true;
     button.classList.remove("is-loading");
     button.querySelector("span").textContent = "Let’s see the possibilities";
     setComparePosition(compareRange.value);
-  }, 2800);
+  }
 }
 
 document.querySelector("#upload-button").addEventListener("click", () => fileInput.click());

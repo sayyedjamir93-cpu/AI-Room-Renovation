@@ -26,6 +26,16 @@ RoomRevamp AI is a polished room renovation concept tool. Upload a room photo, c
 npm install
 ```
 
+### Configure real AI renovations
+
+Copy `.env.example` to `.env` and add a Replicate API token:
+
+```bash
+REPLICATE_API_TOKEN=your_token_here
+```
+
+The token is used only by the Vite server and is never sent to the browser. The app uses Replicate's image-to-image model to preserve the uploaded room's layout while applying the selected room, style, budget, and personal notes.
+
 ### Run locally
 
 ```bash
@@ -56,7 +66,7 @@ npm run preview
 
 ## Image Generation
 
-The current experience uses concept preview images and does not call an image generation API yet. Connect an image generation service in `app.js` to produce custom transformations from uploaded photos.
+With `REPLICATE_API_TOKEN` configured, the Generate button sends the uploaded room photo and renovation brief to Replicate. Without a token, the app keeps its preview mode and displays a setup message instead of presenting a stock image as a real transformation.
 
 ## License
 
