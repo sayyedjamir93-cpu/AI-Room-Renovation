@@ -16,12 +16,44 @@ const photoLibrary = {
   }
 };
 
-const variations = [
-  { name: "Soft & natural", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Quiet luxury", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Clean slate", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" },
-  { name: "Collected home", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" }
-];
+const variationCatalog = {
+  Scandinavian: [
+    { name: "Soft & natural", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Light & layered", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Clean slate", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Warm minimal", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" }
+  ],
+  Japandi: [
+    { name: "Quiet balance", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Natural textures", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Low & restful", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Earth tones", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" }
+  ],
+  "Modern luxury": [
+    { name: "Quiet luxury", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Polished contrast", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Sculptural calm", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Rich materials", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" }
+  ],
+  Minimalist: [
+    { name: "Clear & calm", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Soft geometry", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Open space", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Warm white", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" }
+  ],
+  Industrial: [
+    { name: "Raw & refined", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Urban warmth", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Steel & timber", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Collected loft", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" }
+  ],
+  Bohemian: [
+    { name: "Collected home", image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Sun-washed", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Pattern & patina", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
+    { name: "Lived-in layers", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" }
+  ]
+};
 
 const fileInput = document.querySelector("#file-input");
 const dropzone = document.querySelector("#upload-dropzone");
@@ -34,12 +66,16 @@ const compareRange = document.querySelector("#compare-range");
 const compareBefore = document.querySelector("#compare-before");
 const compareDivider = document.querySelector("#compare-divider");
 const toast = document.querySelector("#toast");
+const variationGrid = document.querySelector("#variation-grid");
+const variationCount = document.querySelector(".variation-count");
 
 let currentImage = photoLibrary.living.image;
 let currentStyle = "Scandinavian";
 let currentRoom = "Living room";
 let currentObjectUrl = null;
 let toastTimer;
+let generationNumber = 0;
+let activeVariations = variationCatalog.Scandinavian;
 
 function setRoomImage(image, room) {
   currentImage = image;
@@ -105,18 +141,40 @@ function setComparePosition(value) {
   compareDivider.style.left = `${value}%`;
 }
 
+function selectVariation(index) {
+  const variation = activeVariations[index];
+  if (!variation) return;
+  document.querySelectorAll(".variation-card").forEach((card, cardIndex) => card.classList.toggle("is-selected", cardIndex === index));
+  afterImage.src = variation.image;
+  variationCount.innerHTML = `${String(index + 1).padStart(2, "0")} <i>/</i> ${String(activeVariations.length).padStart(2, "0")}`;
+}
+
+function renderVariations(selectedIndex = 0) {
+  activeVariations = variationCatalog[currentStyle] || variationCatalog.Scandinavian;
+  variationGrid.innerHTML = activeVariations.map((variation, index) => `
+    <button class="variation-card${index === selectedIndex ? " is-selected" : ""}" type="button" data-variation="${index}">
+      <img src="${variation.image.replace("w=1800", "w=600")}" alt="${variation.name} interior variation" />
+      <span>${variation.name} <i>↗</i></span>
+    </button>
+  `).join("");
+  variationGrid.querySelectorAll(".variation-card").forEach((button, index) => button.addEventListener("click", () => selectVariation(index)));
+  selectVariation(selectedIndex);
+}
+
 function startGeneration() {
   const button = document.querySelector("#generate-button");
   const overlay = document.querySelector("#generating-overlay");
   const loadingMessage = document.querySelector("#loading-message");
   const messageSet = ["Reading the light in your room...", `Finding the feel of ${currentStyle}...`, "Putting the finishing touches on..."];
   const messageTimers = messageSet.map((message, index) => setTimeout(() => { loadingMessage.textContent = message; }, index * 850));
+  const selectedVariation = generationNumber % activeVariations.length;
+  generationNumber += 1;
 
   button.classList.add("is-loading");
   button.querySelector("span").textContent = "Finding your fresh perspective...";
   overlay.hidden = false;
   resultSection.hidden = false;
-  afterImage.src = photoLibrary[Object.keys(photoLibrary).find(key => photoLibrary[key].room === currentRoom)]?.after || variations[0].image;
+  renderVariations(selectedVariation);
   originalImage.src = currentImage;
   document.querySelector("#result-style-tag").textContent = `${currentStyle.toUpperCase()} · ${currentRoom.toUpperCase()}`;
   document.querySelector("#results-title").innerHTML = `A fresh take on <em>${currentRoom.toLowerCase()}.</em>`;
@@ -155,12 +213,6 @@ document.querySelector("#try-again").addEventListener("click", () => {
   resultSection.hidden = true;
   document.querySelector("#studio").scrollIntoView({ behavior: "smooth", block: "start" });
 });
-
-document.querySelectorAll(".variation-card").forEach(button => button.addEventListener("click", () => {
-  const variation = variations[Number(button.dataset.variation)];
-  document.querySelectorAll(".variation-card").forEach(card => card.classList.toggle("is-selected", card === button));
-  afterImage.src = variation.image;
-}));
 
 document.querySelector("#download-result").addEventListener("click", async () => {
   try {
@@ -211,3 +263,4 @@ for (const eventName of ["dragleave", "drop"]) {
 dropzone.addEventListener("drop", event => handleFiles(event.dataTransfer.files));
 
 setComparePosition(compareRange.value);
+renderVariations();
