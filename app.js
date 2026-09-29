@@ -52,6 +52,12 @@ const variationCatalog = {
     { name: "Sun-washed", image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=90" },
     { name: "Pattern & patina", image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90" },
     { name: "Lived-in layers", image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" }
+  ],
+  "Indian family home": [
+    { name: "Warm welcome", image: "/assets/rooms/living-japandi.jpg" },
+    { name: "Family-first comfort", image: "/assets/rooms/living-bohemian.jpg" },
+    { name: "Local craft touches", image: "/assets/rooms/dining-luxury.jpg" },
+    { name: "Practical pooja corner", image: "/assets/rooms/living-scandinavian.jpg" }
   ]
 };
 
@@ -63,7 +69,7 @@ const budgetCatalog = {
   },
   "mid-range": {
     label: "MID-RANGE",
-    message: "A practical family-friendly plan: reuse the layout, prioritize the biggest wins, and spend carefully where it shows.",
+    message: "A practical family-friendly plan: reuse the layout, bring in Indian warmth and craft, and spend carefully where it shows.",
     directions: ["Best-value refresh", "Comfort upgrade", "Worthwhile swap", "Balanced plan"]
   },
   flexible: {
@@ -177,9 +183,12 @@ function selectVariation(index) {
 
 function renderVariations(selectedIndex = 0) {
   const budget = budgetCatalog[currentBudget];
+  const directions = currentStyle === "Indian family home" && currentBudget === "mid-range"
+    ? ["Warm Indian welcome", "Family-first comfort", "Local craft touches", "Practical pooja corner"]
+    : budget.directions;
   activeVariations = (variationCatalog[currentStyle] || variationCatalog.Scandinavian).map((variation, index) => ({
     ...variation,
-    name: budget.directions[index]
+    name: directions[index]
   }));
   variationGrid.innerHTML = activeVariations.map((variation, index) => `
     <button class="variation-card${index === selectedIndex ? " is-selected" : ""}" type="button" data-variation="${index}">
@@ -209,7 +218,10 @@ function startGeneration() {
   renderVariations(selectedVariation);
   originalImage.src = currentImage;
   document.querySelector("#result-style-tag").textContent = `${currentStyle.toUpperCase()} · ${budget.label}`;
-  resultBrief.textContent = notes ? `${budget.message} Focus: ${notes}` : budget.message;
+  const indianBrief = currentStyle === "Indian family home" && currentBudget === "mid-range"
+    ? "Indian-inspired, family-first choices with durable materials, useful storage, and room for everyday rituals."
+    : budget.message;
+  resultBrief.textContent = notes ? `${indianBrief} Focus: ${notes}` : indianBrief;
   document.querySelector("#results-title").innerHTML = `A fresh take on <em>${currentRoom.toLowerCase()}.</em>`;
   resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
