@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="styles-overrides.css" />
     <script src="app.js" defer></script>
   </head>
   <body>
@@ -88,7 +89,16 @@
               </div>
             </div>
             <div class="control-block details-block">
-              <label class="control-title" for="custom-notes"><span class="step-number">03</span><span><strong>Anything else on your mind?</strong><small>Optional, but the little things matter.</small></span></label>
+              <div class="control-title"><span class="step-number">03</span><span><strong>Keep the ideas within reach.</strong><small>Choose a realistic budget, then add any details that matter.</small></span></div>
+              <div class="budget-field">
+                <span class="budget-label">YOUR BUDGET</span>
+                <div class="budget-options" role="group" aria-label="Renovation budget">
+                  <button class="budget-option" type="button" data-budget="affordable">Affordable</button>
+                  <button class="budget-option is-selected" type="button" data-budget="mid-range">Mid-range</button>
+                  <button class="budget-option" type="button" data-budget="flexible">Flexible</button>
+                </div>
+              </div>
+              <label class="notes-label" for="custom-notes">Anything else on your mind?</label>
               <textarea id="custom-notes" rows="2" placeholder="A wooden coffee table, warm evening light, a little more green..."></textarea>
             </div>
             <div id="upload-error" class="error-message" role="alert" hidden></div>
@@ -100,7 +110,7 @@
 
       <section class="results-section" id="results" hidden aria-labelledby="results-title">
         <div class="section-shell results-shell">
-          <div class="results-top"><div><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR ROOM, REIMAGINED</div><h2 id="results-title">A fresh take on <em>home.</em></h2></div><span class="result-style-tag" id="result-style-tag">SCANDINAVIAN · LIVING ROOM</span></div>
+          <div class="results-top"><div><div class="eyebrow"><span class="eyebrow-dot"></span> YOUR ROOM, REIMAGINED</div><h2 id="results-title">A fresh take on <em>home.</em></h2><p class="result-brief" id="result-brief">Practical updates, comfortable materials, and no unnecessary splurges.</p></div><span class="result-style-tag" id="result-style-tag">SCANDINAVIAN · MID-RANGE</span></div>
           <div class="compare-wrap" id="compare-wrap">
             <img class="compare-after" id="compare-after" src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?auto=format&fit=crop&w=1800&q=90" alt="AI renovation preview" />
             <div class="compare-before" id="compare-before"><img id="compare-original" src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1800&q=85" alt="Original room" /></div>

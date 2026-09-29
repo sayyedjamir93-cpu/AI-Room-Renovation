@@ -55,6 +55,24 @@ const variationCatalog = {
   ]
 };
 
+const budgetCatalog = {
+  affordable: {
+    label: "AFFORDABLE",
+    message: "Budget-friendly updates using what you already own, with simple swaps that make a visible difference.",
+    directions: ["Smart refresh", "Low-cost layers", "Easy weekend", "Secondhand charm"]
+  },
+  "mid-range": {
+    label: "MID-RANGE",
+    message: "A practical family-friendly plan: reuse the layout, prioritize the biggest wins, and spend carefully where it shows.",
+    directions: ["Best-value refresh", "Comfort upgrade", "Worthwhile swap", "Balanced plan"]
+  },
+  flexible: {
+    label: "FLEXIBLE",
+    message: "A considered plan with room for a few statement pieces, while keeping the overall result livable and intentional.",
+    directions: ["Polished refresh", "Statement comfort", "Layered finish", "Collected look"]
+  }
+};
+
 const fileInput = document.querySelector("#file-input");
 const dropzone = document.querySelector("#upload-dropzone");
 const roomPreview = document.querySelector("#room-preview");
@@ -68,6 +86,8 @@ const compareDivider = document.querySelector("#compare-divider");
 const toast = document.querySelector("#toast");
 const variationGrid = document.querySelector("#variation-grid");
 const variationCount = document.querySelector(".variation-count");
+const notesInput = document.querySelector("#custom-notes");
+const resultBrief = document.querySelector("#result-brief");
 
 let currentImage = photoLibrary.living.image;
 let currentStyle = "Scandinavian";
@@ -76,6 +96,7 @@ let currentObjectUrl = null;
 let toastTimer;
 let generationNumber = 0;
 let activeVariations = variationCatalog.Scandinavian;
+let currentBudget = "mid-range";
 
 function setRoomImage(image, room) {
   currentImage = image;
@@ -94,6 +115,11 @@ function selectRoom(button) {
 function selectStyle(button) {
   document.querySelectorAll(".style-option").forEach(option => option.classList.toggle("is-selected", option === button));
   currentStyle = button.dataset.style;
+}
+
+function selectBudget(button) {
+  document.querySelectorAll(".budget-option").forEach(option => option.classList.toggle("is-selected", option === button));
+  currentBudget = button.dataset.budget;
 }
 
 function showToast(message) {
@@ -150,7 +176,11 @@ function selectVariation(index) {
 }
 
 function renderVariations(selectedIndex = 0) {
-  activeVariations = variationCatalog[currentStyle] || variationCatalog.Scandinavian;
+  const budget = budgetCatalog[currentBudget];
+  activeVariations = (variationCatalog[currentStyle] || variationCatalog.Scandinavian).map((variation, index) => ({
+    ...variation,
+    name: budget.directions[index]
+  }));
   variationGrid.innerHTML = activeVariations.map((variation, index) => `
     <button class="variation-card${index === selectedIndex ? " is-selected" : ""}" type="button" data-variation="${index}">
       <img src="${variation.image.replace("w=1800", "w=600")}" alt="${variation.name} interior variation" />
@@ -165,7 +195,9 @@ function startGeneration() {
   const button = document.querySelector("#generate-button");
   const overlay = document.querySelector("#generating-overlay");
   const loadingMessage = document.querySelector("#loading-message");
-  const messageSet = ["Reading the light in your room...", `Finding the feel of ${currentStyle}...`, "Putting the finishing touches on..."];
+  const budget = budgetCatalog[currentBudget];
+  const notes = notesInput.value.trim();
+  const messageSet = ["Reading the light in your room...", `Planning a ${budget.label.toLowerCase()} ${currentStyle} direction...`, notes ? "Applying your personal priorities..." : "Putting the finishing touches on..."];
   const messageTimers = messageSet.map((message, index) => setTimeout(() => { loadingMessage.textContent = message; }, index * 850));
   const selectedVariation = generationNumber % activeVariations.length;
   generationNumber += 1;
@@ -176,7 +208,8 @@ function startGeneration() {
   resultSection.hidden = false;
   renderVariations(selectedVariation);
   originalImage.src = currentImage;
-  document.querySelector("#result-style-tag").textContent = `${currentStyle.toUpperCase()} · ${currentRoom.toUpperCase()}`;
+  document.querySelector("#result-style-tag").textContent = `${currentStyle.toUpperCase()} · ${budget.label}`;
+  resultBrief.textContent = notes ? `${budget.message} Focus: ${notes}` : budget.message;
   document.querySelector("#results-title").innerHTML = `A fresh take on <em>${currentRoom.toLowerCase()}.</em>`;
   resultSection.scrollIntoView({ behavior: "smooth", block: "start" });
 
@@ -202,6 +235,7 @@ fileInput.addEventListener("change", event => handleFiles(event.target.files));
 document.querySelectorAll(".sample-button").forEach(button => button.addEventListener("click", () => useSample(button.dataset.sample)));
 document.querySelectorAll(".room-option").forEach(button => button.addEventListener("click", () => selectRoom(button)));
 document.querySelectorAll(".style-option").forEach(button => button.addEventListener("click", () => selectStyle(button)));
+document.querySelectorAll(".budget-option").forEach(button => button.addEventListener("click", () => selectBudget(button)));
 document.querySelectorAll("[data-pick-style]").forEach(button => button.addEventListener("click", () => {
   const styleButton = [...document.querySelectorAll(".style-option")].find(option => option.dataset.style === button.dataset.pickStyle);
   if (styleButton) selectStyle(styleButton);
